@@ -6,7 +6,7 @@ A script to export JPG images from a PSD file.
 
 Requires Python 3.6+
 
-Install the dependency packages
+Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy))
 
 ``` python
     pip install -r requirements.txt
