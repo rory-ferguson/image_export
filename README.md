@@ -6,7 +6,7 @@ A script to export JPG images from a PSD file.
 
 Requires Python 3.6+
 
-Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy))
+Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy)) with
 
 ``` python
     pip install -r requirements.txt
@@ -20,7 +20,7 @@ Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-to
     python image_export.py
 ```
 
-After running `python image_export.py` input the values relating to the prompts shown below;
+After running `python image_export.py` input the values relating to the prompts shown below
 
 ``` terminal
     File path: C:\\Folder\\
@@ -28,14 +28,14 @@ After running `python image_export.py` input the values relating to the prompts 
     Naming convention: Image
 ```
 
-The images will output to an `images` directory and look like the below
+The images will output to an `images` directory and look similar to the below
 
 - Image_850_01.jpg
 - Image_850_02.jpg
 - Image_1280_01.jpg
 - Image_1280_02.jpg
 
-The `850` and `1280` related to the artboards width.
+The `850` and `1280` relate to the artboards width.
 
 ## Notes on photoshop data
 
