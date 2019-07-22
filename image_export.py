@@ -53,7 +53,7 @@ if __name__ == "__main__":
     os.makedirs(Path(user_directory).joinpath('images'), exist_ok=True)
 
     print('Exporting images...')
-    for i in reversed(list(psd_load)):
+    for layer in reversed(list(psd_load)):
         count=[]
-        filter_layers(i, count)
+        filter_layers(layer, count)
     print('Done.')
