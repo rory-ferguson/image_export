@@ -20,7 +20,7 @@ Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-to
     python image_export.py
 ```
 
-After running `python image_export.py` input the values relating to the prompts shown below
+After running `python image_export.py`, input the values relating to the prompts
 
 ``` terminal
     File path: C:\\Folder\\
