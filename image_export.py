@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from colorama import Fore, Style
 
 from psd_tools import PSDImage
 from helpers import valid_directory, directory_exists, psd_name, decimal_count, underscore, convert_width_if_email, input_message
