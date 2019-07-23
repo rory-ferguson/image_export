@@ -1,8 +1,11 @@
 import os
 from pathlib import Path
+from tqdm import tqdm
+
+from compression import ImageOptimCompression
+from helpers import *
 
 from psd_tools import PSDImage
-from helpers import valid_directory, directory_exists, psd_name, decimal_count, underscore, convert_width_if_email, remove_file
 
 """
     Exports images from a photoshop file
@@ -30,8 +33,9 @@ def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, patter
                                 count.append(i)
                                 layer = i.smart_object
                                 image = new_psd(user_directory, layer)
-                                save_image(image, size, len(count), pattern, user_directory)
+                                name = save_image(image, size, len(count), pattern, user_directory)
                                 remove_file(user_directory, layer.filename)
+                                compress.request(user_directory, name)
                     except AttributeError:
                         pass
                 else:
@@ -41,7 +45,8 @@ def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, patter
                                 and i.visible:
                             count.append(i)
                             image = i.compose()
-                            save_image(image, size, len(count), pattern, user_directory)
+                            name = save_image(image, size, len(count), pattern, user_directory)
+                            compress.request(user_directory, name)
             
             filter_layers(layer, count, naming_convention, user_directory, size)
 
@@ -52,8 +57,10 @@ def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, patter
 
 def save_image(image: 'PIL.Image.Image', size: str, count: int, pattern: str, user_directory: str):
     count = decimal_count(count)
+    name = f'{pattern}{size}_{count}.jpg'
     image.convert('RGB').save(
         Path(user_directory).joinpath('images', f'{pattern}{size}_{count}.jpg'), quality=85)
+    return name
 
 
 if __name__ == "__main__":
@@ -71,6 +78,8 @@ if __name__ == "__main__":
 
     os.makedirs(Path(user_directory).joinpath('images'), exist_ok=True)
     
+    compress = ImageOptimCompression()
+
     print('\nExporting images...')
     for layer in reversed(list(psd_load)):
         count=[]

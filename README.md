@@ -1,6 +1,6 @@
 # Image Exporter
 
-A script to export JPG images from a PSD file.
+A program to export JPG images from a PSD file.
 
 ## Installation
 
@@ -10,6 +10,19 @@ Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-to
 
 ``` python
     pip install -r requirements.txt
+```
+
+## ImageOptim
+
+The program relies on imageOptim to compress the images, an `account key` is required. [https://imageoptim.com/api](https://imageoptim.com/api).
+
+Create an `config.py` file and add the `account key` in there
+
+``` python
+""" config.py
+    ImageOptim API Credentials
+"""
+username = ''
 ```
 
 ## How To
