@@ -15,14 +15,7 @@ def new_psd(path: str, layer: 'psd_tools.api.smart_object.SmartObject') -> 'PIL.
     return PSDImage.open(file_psd).compose()
 
 
-def filter_layers(
-    artboard: 'psd_tools.api.layers.Artboard', 
-    count: list, 
-    pattern: str,
-    user_directory: str,
-    size: str
-    ):
-    
+def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, pattern: str, user_directory: str, size: str ):
     try:
         for layer in reversed(list(artboard)):
             if layer.kind == 'group':
@@ -57,13 +50,7 @@ def filter_layers(
     except TypeError:
         pass
 
-def save_image(
-    image: 'PIL.Image.Image', 
-    size: str, 
-    count: int, 
-    pattern: str, 
-    user_directory: str
-    ):
+def save_image(image: 'PIL.Image.Image', size: str, count: int, pattern: str, user_directory: str):
     count = decimal_count(count)
     image.convert('RGB').save(
         Path(user_directory).joinpath('images', f'{pattern}{size}_{count}.jpg'), quality=85)
