@@ -16,10 +16,10 @@ def psd_name(path: str, message: str):
                 return file
 
 
-def input_directory(message):
+def valid_directory(message: str) -> str:
     while True:
         try:
-            path = input(f'{message}\n')
+            path = f'{message}\n'
         except ValueError:
             print('Invalid path, try again.')
             continue
@@ -39,3 +39,29 @@ def directory_exists(path: str) -> bool:
     except TypeError:
         pass
 
+
+def decimal_count(count: int) -> str:
+    if count <= 9:
+        return f'0{count}'
+    else:
+        return f'{count}'
+
+
+def underscore(pattern: str) -> str:
+    if not pattern:
+        return pattern
+    elif '_' in pattern and len(pattern) > 1:
+        return ''
+    elif '_' in pattern[-1:]:
+        return pattern
+    elif '_' not in pattern[-1:]:
+        return f'{pattern}_'
+
+
+def convert_width_if_email(width: str) -> str:
+    if width == '850':
+        return 'Mobile'
+    elif width == '1280':
+        return 'Desktop'
+    else:
+        return
