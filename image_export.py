@@ -37,7 +37,6 @@ def filter_layers(
                                 count.append(i)
                                 layer = i.smart_object
                                 image = new_psd(user_directory, layer)
-                                print(image)
                                 save_image(image, size, len(count), pattern, user_directory)
                                 remove_file(user_directory, layer.filename)
                     except AttributeError:
