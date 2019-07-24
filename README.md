@@ -16,15 +16,7 @@ Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-to
 
 The program relies on imageOptim to compress the images, an `account key` is required. [https://imageoptim.com/api](https://imageoptim.com/api).
 
-Create an `config.py` file and add the `account key` in there
-
-``` python
-config.py
-"""
-    ImageOptim API Credentials
-"""
-username = ''
-```
+When initially running the program, a `config.py` will be created and require an input for the `account key`
 
 ## How To
 
