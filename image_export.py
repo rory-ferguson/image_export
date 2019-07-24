@@ -7,7 +7,12 @@ from helpers import *
 
 from psd_tools import PSDImage
 
-root = os.path.dirname(os.path.abspath(__file__))
+try:
+    if __name__ == "__main__":
+        import config
+except:
+    import setup
+    import config
 
 """
     Exports images from a photoshop file
@@ -77,22 +82,6 @@ if __name__ == "__main__":
 
     output = Path(user_directory).joinpath('images')
     os.makedirs(output, exist_ok=True)
-    
-    try:
-        if __name__ == "__main__":
-            import config
-        else:
-            import config as config
-    except:
-        print('First time installation requires config.py file.')
-        print('Creating config.py...')
-        config_file = open(Path(root).joinpath('config.py'), 'w')
-
-        username = input('Whats your ImageOptim API username?')
-        config_file.write(f"username='{username}'")
-        config_file.close()
-
-        import config
 
     compress = ImageOptimCompression(username=config.username, path=output)
 
