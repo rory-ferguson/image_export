@@ -1,6 +1,6 @@
 # Image Exporter
 
-A program to export JPG images from a PSD file.
+A program to export and compress JPG images from a PSD file.
 
 ## Installation
 
