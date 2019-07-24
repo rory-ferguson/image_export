@@ -9,6 +9,7 @@ Requires Python 3.6+
 Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy)) with
 
 ``` python
+    cd main/
     pip install -r requirements.txt
 ```
 
@@ -20,18 +21,18 @@ When initially running the program, a `config.py` will be created and require an
 
 ## How To
 
+Open a terminal inside of the repository
+
 ``` terminal
-    cd image_export/
-    pip install -r requirements.txt
-    python image_export.py
+    python main.py
 ```
 
-After running `python image_export.py`, input the values relating to the prompts
+After running `python main.py`, input the values relating to the prompts
 
 ``` terminal
     File path: C:\\Folder\\
-    PSD name: Example.psd
-    Naming convention: Image
+    PSD name (can be blank or without file extension): Example.psd
+    Naming convention (2019-01-01_SS19_C1_GG_Gender): Image
 ```
 
 The images will output to an `images` directory and look similar to the below

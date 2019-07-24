@@ -1,6 +1,5 @@
 .idea
 .vscode/*
-test/
 config.py
 
 # Byte-compiled / optimized / DLL files

@@ -40,7 +40,7 @@ def directory_exists(path: str) -> bool:
         pass
 
 
-def decimal_count(count: int) -> str:
+def count_to_str(count: int) -> str:
     if count <= 9:
         return f'0{count}'
     else:
