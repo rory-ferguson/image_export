@@ -19,7 +19,8 @@ The program relies on imageOptim to compress the images, an `account key` is req
 Create an `config.py` file and add the `account key` in there
 
 ``` python
-""" config.py
+config.py
+"""
     ImageOptim API Credentials
 """
 username = ''
