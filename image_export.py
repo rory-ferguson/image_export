@@ -14,49 +14,24 @@ except:
     import setup
     import config
 
+
 """
     Exports images from a photoshop file
     
 """
 
-def new_psd(path: str, layer: 'psd_tools.api.smart_object.SmartObject') -> 'PIL.Image.Image':
-    file_psd = Path(path).joinpath(layer.filename)
-    layer.save(file_psd)
-    return PSDImage.open(file_psd).compose()
-
-
 def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, pattern: str, user_directory: str, size: str, output: 'pathlib.WindowsPath'):
     try:
-        for layer in reversed(list(artboard)):
+        for layer in reversed(list(artboard.descendants())):
             if layer.kind == 'group':
-                if 'new in'.lower() in layer.name.lower() \
+                if 'image'.lower() in layer.name.lower() \
                     and layer.kind == 'group' \
                         and layer.visible:
-                    try:
-                        for i in reversed(list(layer.descendants())):
-                            if i.kind == 'smartobject' \
-                                and 'block'.lower() in i.name.lower() \
-                                    and i.visible:
-                                count.append(i)
-                                layer = i.smart_object
-                                image = new_psd(user_directory, layer)
-                                name = save_image(image, size, len(count), pattern, user_directory, output)
-                                remove_file(user_directory, layer.filename)
-                                compress.request(name)
-                    except AttributeError:
-                        pass
-                else:
-                    for i in reversed(list(layer.descendants())):
-                        if 'image'.lower() in i.name.lower() \
-                            and i.kind == 'group' \
-                                and i.visible:
-                            count.append(i)
-                            image = i.compose()
-                            name = save_image(image, size, len(count), pattern, user_directory, output)
-                            compress.request(name)
-            
-            filter_layers(layer, count, naming_convention, user_directory, size, output)
-
+                    count.append(layer)
+                    image = layer.compose()
+                    name = save_image(image, size, len(count), pattern, user_directory, output)
+                    compress.request(name)
+                    
     except AttributeError as e:
         print(e)
     except TypeError:
@@ -64,20 +39,20 @@ def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, patter
 
 def save_image(image: 'PIL.Image.Image', size: str, count: int, pattern: str, user_directory: str, output):
     count = decimal_count(count)
-    name = f'{pattern}{size}_{count}.jpg'
-    image.convert('RGB').save(
-        Path(output).joinpath(f'{pattern}{size}_{count}.jpg'), quality=85)
-    return name
+    return image.convert('RGB').save(Path(output).joinpath(f'{pattern}{size}_{count}.jpg'), quality=85)
 
 
 if __name__ == "__main__":
-    user_directory = valid_directory(message='File path:')
+    # user_directory = valid_directory(message='File path:')
+    user_directory = 'C:\\Users\\rory.ferguson\\Documents\\test\\resources\\Email'
 
-    psd_name = psd_name(user_directory, message='PSD name (can be blank or without file extension):')
+    # psd_name = psd_name(user_directory, message='PSD name (can be blank or without file extension):')
+    psd_name = 'email.psd'
 
     path_of_psd = Path(user_directory).joinpath(psd_name)
 
-    user_input = input('Naming convention (2019-01-01_SS19_C1_GG_Gender): \n')
+    # user_input = input('Naming convention (2019-01-01_SS19_C1_GG_Gender): \n')
+    user_input = ''
     naming_convention = underscore(user_input)
 
     output = Path(user_directory).joinpath('images')

@@ -63,7 +63,3 @@ def convert_width_if_email(width: str) -> str:
         return 'Desktop'
     else:
         return width
-
-
-def remove_file(path: str, file: str):
-    os.remove(Path(path).joinpath(file))
