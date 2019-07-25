@@ -43,16 +43,13 @@ def save_image(image: 'PIL.Image.Image', size: str, count: int, pattern: str, us
 
 
 if __name__ == "__main__":
-    # user_directory = valid_directory(message='File path:')
-    user_directory = 'C:\\Users\\rory.ferguson\\Documents\\test\\resources\\Email'
+    user_directory = valid_directory(message='File path:')
 
-    # psd_name = psd_name(user_directory, message='PSD name (can be blank or without file extension):')
-    psd_name = 'email.psd'
+    psd_name = psd_name(user_directory, message='PSD name (can be blank or without file extension):')
 
     path_of_psd = Path(user_directory).joinpath(psd_name)
 
-    # user_input = input('Naming convention (2019-01-01_SS19_C1_GG_Gender): \n')
-    user_input = ''
+    user_input = input('Naming convention (2019-01-01_SS19_C1_GG_Gender): \n')
     naming_convention = underscore(user_input)
 
     output = Path(user_directory).joinpath('images')
