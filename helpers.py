@@ -5,15 +5,19 @@ from typing import Union, Any, List, Optional, cast
 from typing import List
 
 
-def psd_name(path: str, message: str) -> str:
+def psd_name(path: str, message: str):
     user_input = input(f'{message}\n')
+    if user_input:
+        if directory_exists(path):
+            for file in os.listdir(path):
+                if user_input in file:
+                    return file
 
-    if directory_exists(path):
-        for file in os.listdir(path):
-            if user_input in file:
-                return file
-            elif '.psb' in file or '.psd' in file:
-                return file
+    if not user_input:
+        if directory_exists(path):
+            for file in os.listdir(path):
+                if '.psb' in file or '.psd' in file:
+                    return file
 
 
 def valid_directory(message: str) -> str:
