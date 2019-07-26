@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from tqdm import tqdm
 
+from typing import List, Tuple
+
 from compression import ImageOptimCompression
 from helpers import *
 
@@ -14,32 +16,27 @@ except:
     import setup
     import config
 
-
 """
     Exports images from a photoshop file
-    
+
 """
 
-def filter_layers(artboard: 'psd_tools.api.layers.Artboard', count: list, pattern: str, user_directory: str, size: str, output: 'pathlib.WindowsPath'):
+def filter_image_layers(artboard: 'psd_tools.api.layers.Artboard', width: str, images: list) -> list:
+    n = []
     try:
         for layer in reversed(list(artboard.descendants())):
-            if layer.kind == 'group':
-                if 'image'.lower() in layer.name.lower() \
-                    and layer.kind == 'group' \
-                        and layer.visible:
-                    count.append(layer)
-                    image = layer.compose()
-                    name = save_image(image, size, len(count), pattern, user_directory, output)
-                    compress.request(name)
-                    
+            if 'image'.lower() in layer.name.lower() \
+                and layer.kind == 'group' \
+                    and layer.visible:
+                n.append(1)
+                images.append((layer, width, len(n)))
+                
+        return images
+
     except AttributeError as e:
         print(e)
-    except TypeError:
-        pass
-
-def save_image(image: 'PIL.Image.Image', size: str, count: int, pattern: str, user_directory: str, output):
-    count = decimal_count(count)
-    return image.convert('RGB').save(Path(output).joinpath(f'{pattern}{size}_{count}.jpg'), quality=85)
+    except TypeError as e:
+        print(e)
 
 
 if __name__ == "__main__":
@@ -50,19 +47,29 @@ if __name__ == "__main__":
     path_of_psd = Path(user_directory).joinpath(psd_name)
 
     user_input = input('Naming convention (2019-01-01_SS19_C1_GG_Gender): \n')
-    naming_convention = underscore(user_input)
+    naming_convention = add_underscore_is_missing(user_input)
 
     output = Path(user_directory).joinpath('images')
     os.makedirs(output, exist_ok=True)
 
-    compress = ImageOptimCompression(username=config.username, path=output)
-
     print(f'\nLoading {psd_name}')
     psd_load = PSDImage.open(path_of_psd)
 
-    print('\nExporting images...')
-    for layer in reversed(list(psd_load)):
-        count=[]
-        size = convert_width_if_email(str(layer.width))
-        filter_layers(layer, count, naming_convention, user_directory, size, output)
-    print('Done.')
+    images: List[Tuple] = []
+    for artboard in reversed(list(psd_load)):
+        width = convert_width_if_email(str(artboard.width))
+        filter_image_layers(artboard, width, images)
+
+    compress = ImageOptimCompression(username=config.username, path=output)
+
+    if compress.connect_test():
+        print('\nExporting images... with ImageOptim\n')
+        for layer, width, n in images:
+            name = image_name_ext(naming_convention, width, n)
+            compress.upload_io(layer, name)
+    else:
+        print('\nImageOptim is down! Savings images out with PIL\n')
+        for layer, width, n in images:
+            name = image_name_ext(naming_convention, width, n)
+            save_image(layer, name, output)
+        input('\nWARNING, remember to compress the images...')

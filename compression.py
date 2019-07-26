@@ -1,8 +1,8 @@
 import sys
-import os
 import requests
 import logging
 from pathlib import Path
+from io import BytesIO
 
 logging.captureWarnings(True)
 
@@ -15,35 +15,40 @@ class ImageOptimCompression(object):
         self.quality = 'full'
 
         self.path = Path(path)
-        self.url = self.build_url()
+        self.url = self._build_url()
+        self.image_path = ''
 
-    def build_url(self):
+    def _build_url(self):
         url_parts = [
             self.endpoint,
             self.username,
             self.quality
         ]
         return '/'.join(url_parts)
-    
-    def _image(self, name):
-        path = Path(self.path).joinpath(name)
-        if os.path.exists(path):
-            self.image_path = path
-        else:
-            sys.exit(f'{name} not found in {self.path}')
 
-    def request(self, name):
-        self._image(name)
+    def connect_test(self):
+        try:
+            r = requests.get(self.endpoint)
+            r.raise_for_status()
+            return True
+        except requests.exceptions.HTTPError:
+            return False
+
+    def upload_io(self, layer, name):
+        self.image_path = Path(self.path).joinpath(name)
+
+        upload_file = BytesIO()        
+        image = layer.compose()
+        image.convert("RGB").save(upload_file, 'JPEG')
+        upload_file.seek(0)
+        files = {'upload_file': upload_file}
         print(name)
-        files = {'upload_file': open(self.image_path, 'rb')}
-
         try:
             self.r = requests.post(str(self.url), files=files, stream=True, verify=False)
             self.r.raise_for_status()
+            self._save()
         except requests.exceptions.HTTPError as e:
             print(e)
-            sys.exit(1)
-        self._save()
     
     def _save(self):
         with open(self.image_path, 'wb') as fd:
