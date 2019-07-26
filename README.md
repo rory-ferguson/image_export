@@ -6,9 +6,11 @@ A program to export and compress JPG images from a PSD file.
 
 Requires Python 3.6+
 
-Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy)) with
+Install the dependency packages ([psd-tools](https://github.com/psd-tools/psd-tools), [numpy](https://github.com/numpy/numpy), [scipy](https://github.com/scipy/scipy)), [tqdm
+](https://github.com/tqdm/tqdm) and [requests](https://github.com/psf/requests)
 
-``` python
+``` terminal
+    cd image_export/
     pip install -r requirements.txt
 ```
 
@@ -21,8 +23,6 @@ When initially running the program, a `config.py` will be created and require an
 ## How To
 
 ``` terminal
-    cd image_export/
-    pip install -r requirements.txt
     python image_export.py
 ```
 
@@ -43,6 +43,7 @@ The images will output to an `images` directory and look similar to the below
 
 The `850` and `1280` relate to the artboards width.
 
-## Notes on photoshop data
+## PSD requirements
 
-A group folder called `image` is required and all layers should be nested into this folder.
+- Artboards
+- A group called `image` is required and all layers should be nested with in
