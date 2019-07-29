@@ -73,9 +73,10 @@ if __name__ == "__main__":
         print("\nExporting images... with ImageOptim\n")
         for layer, width, n in images:
             name = image_name_ext(naming_convention, width, n)
-            
-            """ Uploads file in memory """
+
+            """ Uploads file in memory 
             compress.upload_io(layer, name)
+            """
 
             """ Uploads file from disk """
             save_image(layer, name, output)
@@ -84,5 +85,6 @@ if __name__ == "__main__":
         print("\nImageOptim is down! Savings images out with PIL\n")
         for layer, width, n in images:
             name = image_name_ext(naming_convention, width, n)
+            print(name)
             save_image(layer, name, output)
         input("\nWARNING, remember to compress the images...")

@@ -71,6 +71,5 @@ def image_name_ext(pattern: Any, width: str, count: Any) -> str:
 
 
 def save_image(layer: "PIL.Image.Image", name: str, output):
-    print(name)
     image = layer.compose()
-    image.convert("RGB").save(Path(output).joinpath(name), quality=85)
+    image.convert("RGB").save(Path(output).joinpath(name), quality=100, optimize=True, progressive=True)
