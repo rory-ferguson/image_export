@@ -20,20 +20,21 @@ except:
 
 """
 
-
 def filter_image_layers(
     artboard: "psd_tools.api.layers.Artboard", width: str, images: list
 ) -> list:
     n = []
     try:
-        for layer in reversed(list(artboard.descendants())):
-            if (
-                "image".lower() in layer.name.lower()
-                and layer.kind == "group"
-                and layer.visible
-            ):
-                n.append(1)
-                images.append((layer, width, len(n)))
+        for group in reversed(list(artboard.descendants())):
+            if group.kind == "group" and group.visible:
+                for layer in group:
+                    if (
+                        "image".lower() in layer.name.lower()
+                        and layer.kind == "group"
+                        and layer.visible
+                    ):
+                        n.append(1)
+                        images.append((layer, width, len(n)))
 
         return images
 
@@ -68,11 +69,17 @@ if __name__ == "__main__":
 
     compress = ImageOptimCompression(username=config.username, path=output)
 
-    if compress.connect_test():
+    if compress.connection_status():
         print("\nExporting images... with ImageOptim\n")
         for layer, width, n in images:
             name = image_name_ext(naming_convention, width, n)
+            
+            """ Uploads file in memory """
             compress.upload_io(layer, name)
+
+            """ Uploads file from disk """
+            save_image(layer, name, output)
+            compress.upload_file(output, name)
     else:
         print("\nImageOptim is down! Savings images out with PIL\n")
         for layer, width, n in images:

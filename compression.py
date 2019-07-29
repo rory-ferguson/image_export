@@ -21,7 +21,7 @@ class ImageOptimCompression(object):
         url_parts = [self.endpoint, self.username, self.quality]
         return "/".join(url_parts)
 
-    def connect_test(self):
+    def connection_status(self):
         try:
             r = requests.get(self.endpoint)
             r.raise_for_status()
@@ -29,14 +29,30 @@ class ImageOptimCompression(object):
         except requests.exceptions.HTTPError:
             return False
 
-    def upload_io(self, layer, name):
+    def _image_path(self, name):
         self.image_path = Path(self.path).joinpath(name)
+
+    def upload_io(self, layer, name):
+        self._image_path(name)
 
         upload_file = BytesIO()
         image = layer.compose()
         image.convert("RGB").save(upload_file, "JPEG")
         upload_file.seek(0)
         files = {"upload_file": upload_file}
+        print(name)
+        try:
+            self.r = requests.post(
+                str(self.url), files=files, stream=True, verify=False
+            )
+            self.r.raise_for_status()
+            self._save()
+        except requests.exceptions.HTTPError as e:
+            print(e)
+
+    def upload_file(self, output, name):
+        self.image_path = output.joinpath(name)
+        files = {'upload_file': open(self.image_path, 'rb')}
         print(name)
         try:
             self.r = requests.post(
