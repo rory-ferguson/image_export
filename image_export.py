@@ -27,7 +27,7 @@ def filter_image_layers(
     try:
         for group in reversed(list(artboard.descendants())):
             if group.kind == "group" and group.visible:
-                for layer in reversed(list(group.descendants())):
+                for layer in group:
                     if (
                         "image".lower() in layer.name.lower()
                         and layer.kind == "group"
