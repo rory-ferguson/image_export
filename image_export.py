@@ -82,7 +82,7 @@ if __name__ == "__main__":
             save_image(layer, name, output)
             compress.upload_file(output, name)
     else:
-        print("\nImageOptim is down! Savings images out with PIL\n")
+        print("\nImageOptim is down! Saving images out with PIL\n")
         for layer, width, n in images:
             name = image_name_ext(naming_convention, width, n)
             print(name)
