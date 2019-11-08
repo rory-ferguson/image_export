@@ -53,7 +53,6 @@ class ImageOptimCompression(object):
     def upload_file(self, output, name):
         self.image_path = output.joinpath(name)
         files = {'upload_file': open(self.image_path, 'rb')}
-        print(name)
         try:
             self.r = requests.post(
                 str(self.url), files=files, stream=True, verify=False

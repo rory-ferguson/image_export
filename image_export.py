@@ -67,24 +67,25 @@ if __name__ == "__main__":
         width = convert_width_if_email(str(artboard.width))
         filter_image_layers(artboard, width, images)
 
+    """ Instantiate a an object for us to upload """
     compress = ImageOptimCompression(username=config.username, path=output)
 
-    if compress.connection_status():
-        print("\nExporting images... with ImageOptim\n")
-        for layer, width, n in images:
-            name = image_name_ext(naming_convention, width, n)
+    print("\nSaving images out with Python Imaging Library...\n")
+    for layer, width, n in images:
+        """ Save an image at 50% the dimensions for emails (hero module) """
+        if 'hero'.lower() in layer.parent.name.lower() and 'desktop'.lower() in width.lower():
+            name = image_name_ext_nonretina(width, n)
+            save_image_halfsize(layer.parent, layer, name, output)
 
-            """ Uploads file in memory 
-            compress.upload_io(layer, name)
-            """
+        name = image_name_ext(naming_convention, width, n)
+        save_image(layer, name, output)
+
+        if compress.connection_status():
+            print(f"Compressing {name} with ImageOptim API")
+            """ Uploads file in memory """
+            # compress.upload_io(layer, name)
 
             """ Uploads file from disk """
-            save_image(layer, name, output)
             compress.upload_file(output, name)
-    else:
-        print("\nImageOptim is down! Saving images out with PIL\n")
-        for layer, width, n in images:
-            name = image_name_ext(naming_convention, width, n)
-            print(name)
-            save_image(layer, name, output)
-        input("\nWARNING, remember to compress the images...")
+        else:
+            print(f"\{name} has not been compressed.")
