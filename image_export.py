@@ -67,11 +67,7 @@ if __name__ == "__main__":
         width = convert_width_if_email(str(artboard.width))
         filter_image_layers(artboard, width, images)
 
-<<<<<<< HEAD
     """ Instantiate an object for us to upload """
-=======
-    """ Instantiate a an object for us to upload """
->>>>>>> dab40f65ab0d2a5de0b214326e2032fe7172278b
     compress = ImageOptimCompression(username=config.username, path=output)
 
     print("\nSaving images out with Python Imaging Library...\n")
@@ -83,11 +79,7 @@ if __name__ == "__main__":
 
         name = image_name_ext(naming_convention, width, n)
         save_image(layer, name, output)
-<<<<<<< HEAD
         
-=======
-
->>>>>>> dab40f65ab0d2a5de0b214326e2032fe7172278b
         if compress.connection_status():
             print(f"Compressing {name} with ImageOptim API")
             """ Uploads file in memory """
