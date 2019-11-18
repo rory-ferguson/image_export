@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+from PIL import Image
+
 from typing import Union, Any, List, Optional, cast
 from typing import List
 
@@ -69,9 +71,21 @@ def image_name_ext(pattern: Any, width: str, count: Any) -> str:
     count = decimal_count(count)
     return f"{pattern}{width}_{count}.jpg"
 
+def image_name_ext_nonretina(width: str, count: Any) -> str:
+    count = decimal_count(count)
+    return f"{width}_{count}_NonRetina.jpg"
 
 def save_image(layer: "PIL.Image.Image", name: str, output):
     image = layer.compose()
     image.convert("RGB").save(
+        Path(output).joinpath(name), quality=100, optimize=True, progressive=True
+    )
+
+def save_image_halfsize(parent, layer: "PIL.Image.Image", name: str, output):
+    image = layer.compose()
+    width = int(layer.width / 2)
+    height = int(layer.height / 2)
+    img = image.resize((width,height), Image.ANTIALIAS)
+    img.convert("RGB").save(
         Path(output).joinpath(name), quality=100, optimize=True, progressive=True
     )

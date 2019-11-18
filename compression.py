@@ -22,6 +22,7 @@ class ImageOptimCompression(object):
         return "/".join(url_parts)
 
     def connection_status(self):
+        """ This does not work """
         try:
             r = requests.get(self.endpoint)
             r.raise_for_status()
@@ -53,7 +54,6 @@ class ImageOptimCompression(object):
     def upload_file(self, output, name):
         self.image_path = output.joinpath(name)
         files = {'upload_file': open(self.image_path, 'rb')}
-        print(name)
         try:
             self.r = requests.post(
                 str(self.url), files=files, stream=True, verify=False
@@ -62,6 +62,7 @@ class ImageOptimCompression(object):
             self._save()
         except requests.exceptions.HTTPError as e:
             print(e)
+            sys.exit()
 
     def _save(self):
         with open(self.image_path, "wb") as fd:
