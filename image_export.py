@@ -80,6 +80,12 @@ if __name__ == "__main__":
         name = image_name_ext(naming_convention, width, n)
         save_image(layer, name, output)
         
+
+        """
+            If the API is down this fails, if i've not fixed it
+            then comment all the below out then the images will save out with PIL
+            Then compress them manually
+        """
         if compress.connection_status():
             print(f"Compressing {name} with ImageOptim API")
             """ Uploads file in memory """
