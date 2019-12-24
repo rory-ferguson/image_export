@@ -71,6 +71,7 @@ if __name__ == "__main__":
     compress = ImageOptimCompression(username=config.username, path=output)
 
     print("\nSaving images out with Python Imaging Library...\n")
+    
     for layer, width, n in images:
         """ Save an image at 50% the dimensions for emails (hero module) """
         if 'hero'.lower() in layer.parent.name.lower() and 'desktop'.lower() in width.lower():
@@ -79,19 +80,12 @@ if __name__ == "__main__":
 
         name = image_name_ext(naming_convention, width, n)
         save_image(layer, name, output)
-        
 
-        """
-            If the API is down this fails, if i've not fixed it
-            then comment all the below out then the images will save out with PIL
-            Then compress them manually
-        """
         if compress.connection_status():
             print(f"Compressing {name} with ImageOptim API")
-            """ Uploads file in memory """
-            # compress.upload_io(layer, name)
 
             """ Uploads file from disk """
             compress.upload_file(output, name)
+
         else:
-            print(f"\{name} has not been compressed.")
+            print(f"{name} saved out with PIL but has not been compressed.")
