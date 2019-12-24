@@ -22,12 +22,11 @@ class ImageOptimCompression(object):
         return "/".join(url_parts)
 
     def connection_status(self):
-        """ This does not work """
         try:
             r = requests.get(self.endpoint)
             r.raise_for_status()
             return True
-        except requests.exceptions.HTTPError:
+        except requests.exceptions.ConnectionError:
             return False
 
     def _image_path(self, name):
