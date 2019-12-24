@@ -34,16 +34,20 @@ After running `python image_export.py`, input the values relating to the prompts
     Naming convention: Image
 ```
 
-The images will output to an `images` directory and look similar to the below
+The images will output to an `images/` directory.
 
-- Image_850_01.jpg
-- Image_850_02.jpg
-- Image_1280_01.jpg
-- Image_1280_02.jpg
+For **Emails** keep the Naming convention blank, the images will automatically save out as `Desktop_01`, `Desktop_02`, `Mobile_01` etc
+
+The output will look similar to the below
+
+    Image_850_01.jpg
+    Image_850_02.jpg
+    Image_1280_01.jpg
+    Image_1280_02.jpg
 
 The `850` and `1280` relate to the artboards width.
 
 ## PSD requirements
 
-- Artboards
-- A group called `image` is required and all layers should be nested with in
+- The PSDs require an artboard.
+- A group called `image` is required and all layers should be nested with in it
