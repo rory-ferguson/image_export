@@ -76,10 +76,14 @@ def image_name_ext_nonretina(width: str, count: Any) -> str:
     return f"{width}_{count}_NonRetina.jpg"
 
 def save_image(layer: "PIL.Image.Image", name: str, output):
-    image = layer.compose()
-    image.convert("RGB").save(
-        Path(output).joinpath(name), quality=100, optimize=True, progressive=True
-    )
+    print(layer, name, output)
+    try:
+        image = layer.compose()
+        image.convert("RGB").save(
+            Path(output).joinpath(name), quality=100, optimize=True, progressive=True
+        )
+    except AttributeError:
+        pass
 
 def save_image_halfsize(parent, layer: "PIL.Image.Image", name: str, output):
     image = layer.compose()

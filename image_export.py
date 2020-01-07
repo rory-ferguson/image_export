@@ -59,7 +59,7 @@ if __name__ == "__main__":
     output = Path(user_directory).joinpath("images")
     os.makedirs(output, exist_ok=True)
 
-    print(f"\nLoading {psd_name}")
+    print(f"Loading {psd_name}")
     psd_load = PSDImage.open(path_of_psd)
 
     images: List[Tuple] = []
